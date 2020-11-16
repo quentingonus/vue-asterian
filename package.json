@@ -42,10 +42,7 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "comma-dangle": [
-        "error",
-        "never"
-      ],
+      "comma-dangle": "off",
       "indent": "off",
       "quotes": "off"
     }
