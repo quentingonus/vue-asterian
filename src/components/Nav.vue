@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-app-bar absolute elevate-on-scroll scroll-target="#scrolling-techniques-7">
+    <v-app-bar elevate-on-scroll>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-toolbar-title>Asterian</v-toolbar-title>

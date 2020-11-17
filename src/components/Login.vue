@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <v-row no-gutters>
+    <v-row>
       <v-spacer></v-spacer>
       <v-card>
-        <v-card-title>Create an Account</v-card-title>
+        <v-card-title class="text-center">Create an Account</v-card-title>
         <v-card-text>
           <v-stepper v-model="e1">
             <v-stepper-header>
