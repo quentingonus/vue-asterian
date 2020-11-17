@@ -2,7 +2,7 @@
   <v-app>
     <Nav />
     <v-main>
-      <div class="d-flex justify-center flex-wrap">
+      <div class="d-flex justify-center flex-wrap mb-15">
         <AlbumCard v-for="song in songs" :song="song" :key="song.id" />
       </div>
     </v-main>
@@ -32,7 +32,7 @@ export default {
   }),
   created() {
     axios.get("https://unlimited-song.herokuapp.com/data").then(({ data }) => {
-      this.songs = _.sampleSize(data.song_data, 5);
+      this.songs = _.sampleSize(data.song_data, 50);
     });
   }
 };

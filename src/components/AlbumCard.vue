@@ -18,7 +18,7 @@
         <v-card-subtitle class="d-inline-block text-truncate" style="max-width: 200px;">
           <span class="d-inline-block">{{ song.album }}</span
           ><br />
-          <span class="mt-1 d-inline-block">{{ song.artist }}</span>
+          <span class="d-inline-block">{{ song.artist }}</span>
         </v-card-subtitle>
 
         <v-btn
