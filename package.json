@@ -46,7 +46,11 @@
     "rules": {
       "comma-dangle": "off",
       "indent": "off",
-      "quotes": "off"
+      "quotes": "off",
+      "max-len": "off",
+      "arrow-parens": "off",
+      "no-lonely-if": "off",
+      "no-multi-assign": "off"
     }
   },
   "browserslist": [
