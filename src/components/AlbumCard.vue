@@ -1,6 +1,6 @@
 <template>
   <v-card
-    :loading="false"
+    :loading="is_loading"
     class="d-inline-block ma-5"
     :color="song.color"
     height="150px"
@@ -33,7 +33,7 @@
       </div>
 
       <v-avatar class="ma-3" size="125" tile>
-        <v-img :src="album_art()"></v-img>
+        <v-img :src="album_art()" @load="is_loading = false"></v-img>
       </v-avatar>
     </div>
   </v-card>
@@ -43,7 +43,9 @@ export default {
   props: {
     song: Object
   },
-  data: () => ({}),
+  data: () => ({
+    is_loading: true
+  }),
   methods: {
     album_art() {
       return `https://cdn.asterian.dev/Song/${this.song.artist}/${this.song.album}/cover.png`;
