@@ -1,5 +1,5 @@
 <template>
-  <v-card :loading="is_loading" class="d-inline-block ma-5" :color="song.color" height="150px" right width="350px">
+  <v-card :loading="is_loading" elevation="8" class="d-inline-block ma-5" :color="song.color" height="150px" right width="350px">
     <div class="d-flex flex-no-wrap justify-space-between">
       <div style="position:relative;">
         <v-card-title class="text-sm-body-2 font-weight-bold d-inline-block text-truncate" style="width: 200px;" v-text="song.name"></v-card-title>

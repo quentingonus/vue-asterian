@@ -2,8 +2,9 @@
   <v-app>
     <Nav />
     <MusicPlayer />
+    <MenuDrawer />
     <v-main>
-      <audio class="audioPlayer d-none" @canplaythrough="startPlaying"></audio>
+      <audio class="audioPlayer d-none" @canplaythrough="startPlaying" @ended="nextSong"></audio>
       <div class="d-flex justify-center flex-wrap mb-15" v-if="songs.length != 0">
         <AlbumCard v-for="song in songs" :song="song" :key="song.id" />
       </div>
@@ -21,6 +22,7 @@ import AlbumCard from "./components/AlbumCard.vue";
 import BottomMenu from "./components/BottomMenu.vue";
 import MusicPlayer from "./components/MusicPlayer.vue";
 import Loader from "./components/Loader.vue";
+import MenuDrawer from "./components/MenuDrawer.vue";
 
 const axios = require("axios");
 const _ = require("lodash");
@@ -33,12 +35,14 @@ export default {
     AlbumCard,
     BottomMenu,
     MusicPlayer,
-    Loader
+    Loader,
+    MenuDrawer
   },
 
   data: () => ({
     songs: [],
-    song_amount: 51
+    song_amount: 51,
+    playing_song_info: Object
   }),
   methods: {
     stopSong() {
@@ -50,6 +54,7 @@ export default {
       audioPlayer.play();
     },
     startSong(song) {
+      this.playing_song_info = song;
       const audioPlayer = document.querySelector(".audioPlayer");
       audioPlayer.src = this.getSrc(song);
       this.$root.$emit("songLoadingStart");
@@ -61,6 +66,12 @@ export default {
       const audioPlayer = document.querySelector(".audioPlayer");
       audioPlayer.play();
       this.$root.$emit("songLoadingEnd");
+    },
+    nextSong() {
+      const nextSongInfo = this.songs[this.songs.indexOf(this.playing_song_info) + 1];
+      this.startSong(nextSongInfo);
+      this.$root.$emit("playThis", nextSongInfo);
+      this.$root.$emit("playingSong", nextSongInfo);
     }
   },
   created() {
@@ -69,7 +80,6 @@ export default {
     });
   },
   mounted() {
-    const audioPlayer = document.querySelector(".audioPlayer");
     this.$root.$on("StopSong", this.stopSong);
     this.$root.$on("ResumeSong", this.resumeSong);
     this.$root.$on("playThis", this.startSong);
@@ -78,9 +88,6 @@ export default {
     });
     this.$root.$on("prev10s", () => {
       document.querySelector(".audioPlayer").currentTime -= 10;
-    });
-    audioPlayer.addEventListener("timeupdate", () => {
-      this.$root.$emit("audioPlayerStatus", audioPlayer);
     });
   }
 };

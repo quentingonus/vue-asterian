@@ -13,6 +13,10 @@
               <v-list-item-subtitle>{{ song_from_card.artist }}</v-list-item-subtitle>
             </v-list-item-content>
 
+            <v-list-item-content>
+              <v-list-item-subtitle>{{ current_time }} &emsp;|&emsp; {{ total_time }}</v-list-item-subtitle>
+            </v-list-item-content>
+
             <v-spacer></v-spacer>
 
             <v-list-item-icon>
@@ -46,7 +50,9 @@ export default {
     song_from_card: null,
     songLoading: true,
     currentTimeProgress: 0,
-    ispause: false
+    ispause: false,
+    current_time: "00:00",
+    total_time: "00:00"
   }),
   methods: {
     album_art() {
@@ -65,6 +71,21 @@ export default {
         this.ispause = true;
         this.$root.$emit("StopSong");
       }
+    },
+    watch_audioPlayer() {
+      const audioPlayer = document.querySelector(".audioPlayer");
+
+      audioPlayer.addEventListener("timeupdate", () => {
+        this.current_time = this.timeFormat(audioPlayer.currentTime);
+        this.total_time = this.timeFormat(audioPlayer.duration);
+        this.currentTimeProgress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        this.ispause = audioPlayer.paused;
+      });
+    },
+    timeFormat(seconds) {
+      const m = Math.floor(seconds / 60) < 10 ? `0${Math.floor(seconds / 60)}` : Math.floor(seconds / 60);
+      const s = Math.floor(seconds - m * 60) < 10 ? `0${Math.floor(seconds - m * 60)}` : Math.floor(seconds - m * 60);
+      return `${m}:${s}`;
     }
   },
   watch: {
@@ -78,10 +99,6 @@ export default {
     this.$root.$on("playThis", song => {
       this.song_from_card = song;
       this.sheet = !this.sheet;
-    });
-    this.$root.$on("audioPlayerStatus", audioPlayer => {
-      this.currentTimeProgress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-      this.ispause = audioPlayer.paused;
     });
     this.$root.$on("openMusicPlayer", () => {
       if (this.song_from_card != null) {
@@ -98,6 +115,7 @@ export default {
         this.songLoading = false;
       }
     });
+    this.watch_audioPlayer();
   }
 };
 </script>
