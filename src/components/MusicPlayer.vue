@@ -43,6 +43,8 @@
   </div>
 </template>
 <script>
+const getColors = require("get-image-colors");
+
 export default {
   data: () => ({
     value: 0,
@@ -71,6 +73,9 @@ export default {
         this.ispause = true;
         this.$root.$emit("StopSong");
       }
+      getColors(this.album_art(), "image/gif").then(colors => {
+        console.log(colors);
+      });
     },
     watch_audioPlayer() {
       const audioPlayer = document.querySelector(".audioPlayer");
@@ -85,7 +90,11 @@ export default {
     timeFormat(seconds) {
       const m = Math.floor(seconds / 60) < 10 ? `0${Math.floor(seconds / 60)}` : Math.floor(seconds / 60);
       const s = Math.floor(seconds - m * 60) < 10 ? `0${Math.floor(seconds - m * 60)}` : Math.floor(seconds - m * 60);
-      return `${m}:${s}`;
+      const toReturn = `${m}:${s}`;
+      if (toReturn === "NaN:NaN") {
+        return "00:00";
+      }
+      return toReturn;
     }
   },
   watch: {
