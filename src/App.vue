@@ -75,9 +75,13 @@ export default {
     }
   },
   created() {
-    axios.get("https://unlimited-song.herokuapp.com/data").then(({ data }) => {
-      this.songs = _.sampleSize(data.song_data, this.song_amount);
-    });
+    axios
+      .post("https://unlimited-song.herokuapp.com/api/data", {
+        apikey: "0j6VZnguTZ30MHKsBMw2UEBrNicv8cZA"
+      })
+      .then(({ data }) => {
+        this.songs = _.sampleSize(data.song_data, this.song_amount);
+      });
   },
   mounted() {
     this.$root.$on("StopSong", this.stopSong);
